@@ -23,25 +23,29 @@ pipeline {
                 ]]) {
                     script {
                         echo "Checking if Terraform is installed..."
-                        def terraformCheck = bat(script: 'terraform -version', returnStatus: true)
+
+                        // ✅ Absolute path check
+                        def terraformCheck = bat(
+                            script: 'C:\\terraform\\terraform.exe -version',
+                            returnStatus: true
+                        )
+
                         if (terraformCheck != 0) {
-                            error "Terraform is not installed or not in PATH!"
+                            error "Terraform executable not found at C:\\terraform\\terraform.exe"
                         }
 
-                        echo "Terraform is installed. Running Init, Plan, Apply..."
+                        echo "Terraform found. Running Init, Plan, Apply..."
 
-                        // Run Terraform inside the terraform folder
                         dir('Terraform') {
-                            bat 'terraform init'
-                            bat 'terraform plan'
-                            bat 'terraform apply -auto-approve'
+                            bat 'C:\\terraform\\terraform.exe init'
+                            bat 'C:\\terraform\\terraform.exe plan'
+                            bat 'C:\\terraform\\terraform.exe apply -auto-approve'
                         }
 
                         echo "Terraform execution completed successfully."
-                    } // closes script
-                } // closes withCredentials
-            } // closes steps
-        } // closes stage
-
-    } // closes stages
-} // closes pipeline
+                    }
+                }
+            }
+        }
+    }
+}
