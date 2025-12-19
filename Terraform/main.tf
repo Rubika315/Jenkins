@@ -1,12 +1,11 @@
-resource "aws_security_group" "web_sg" {
-  name = "web-sg"
+provider "aws" {
+  region = "us-west-1"
+}
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_security_group" "web_sg" {
+  name        = "web-sg"
+  description = "Allow HTTP"
+  vpc_id      = "vpc-0b0b7404ffe6fba28"   # IMPORTANT
 
   ingress {
     from_port   = 80
@@ -24,12 +23,11 @@ resource "aws_security_group" "web_sg" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-04f34746e5e1ec0fe" # Ubuntu 22.04 ap-south-1
-  instance_type          = "t2.micro"
-  key_name               = "my_key"
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  ami           = "ami-04f34746e5e1ec0fe"
+  instance_type = "t2.micro"
+  key_name      = "my_key"
 
-  user_data = file("userdata.sh")
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
 
   tags = {
     Name = "Jenkins-Web-Server"
