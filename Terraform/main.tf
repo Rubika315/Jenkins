@@ -24,7 +24,7 @@ resource "aws_security_group" "web_sg" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0623300d1b7caee89" # Ubuntu 22.04 ap-south-1
+  ami                    = "ami-0e6a50b0059fd2cc3" # Ubuntu 22.04 ap-south-1
   instance_type          = "t2.micro"
   key_name               = "my_key"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
