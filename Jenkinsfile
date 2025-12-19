@@ -31,7 +31,7 @@ pipeline {
                         echo "Terraform is installed. Running Init, Plan, Apply..."
 
                         // Run Terraform inside the terraform folder
-                        dir('terraform') {
+                        dir('Terraform') {
                             bat 'terraform init'
                             bat 'terraform plan'
                             bat 'terraform apply -auto-approve'
